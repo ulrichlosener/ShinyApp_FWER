@@ -3,10 +3,10 @@ library(shiny)
 library(graphics)
 
 ui <- page_sidebar(title="Illustration of Familywise Type I Error Rates (FWER)", bg = "#ffd800",
-                   sidebar=sidebar(selectInput(inputId="alpha", label="alpha level", 
+                   sidebar=sidebar(selectInput(inputId="alpha", label="Alpha level", 
                                                choices=c(0.001, 0.01, 0.05, 0.1),
                                                selected = 0.05),
-                                   sliderInput(inputId="n.tests", label="number of conducted significance tests",
+                                   sliderInput(inputId="n.tests", label="Number of conducted significance tests",
                                                min=1, max=100, value=3),
                                    textOutput(outputId="actual_alpha")
                                    ),
@@ -17,7 +17,7 @@ ui <- page_sidebar(title="Illustration of Familywise Type I Error Rates (FWER)",
 server <- function(input, output){
   
   output$actual_alpha <- renderText({
-    paste("The actual type I error rate is equal to", 1-(1-as.numeric(input$alpha))^as.numeric(input$n.tests))
+    paste("The actual type I error rate is equal to", round(1-(1-as.numeric(input$alpha))^as.numeric(input$n.tests), 4))
   })
   
   output$fwerplot <- renderPlot({
