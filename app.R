@@ -25,7 +25,10 @@ server <- function(input, output){
     x <- seq(1,100)
     fwer <- 1-(1-alpha)^x
     plot(fwer, type="b", xlab="Number of significance tests", 
-         ylab="Family wise type I error probability", main="Familywise type I error as a function of the number of tests conducted")
+         ylab="Family wise type I error probability", 
+         main="Familywise type I error as a function of the number of tests conducted",
+         col=ifelse(x==input$n.tests, "blue", "black"),
+         pch=19, cex=ifelse(x==input$n.tests, 2, 1))
   })
 }
 
