@@ -1,8 +1,8 @@
 library(bslib)
 library(shiny)
+library(graphics)
 
-
-ui <- page_sidebar(title="Illustration of Familywise Type I error rates", bg = "#ffd800",
+ui <- page_sidebar(title="Illustration of Familywise Type I Error Rates (FWER)", bg = "#ffd800",
                    sidebar=sidebar(selectInput(inputId="alpha", label="alpha level", 
                                                choices=c(0.001, 0.01, 0.05, 0.1),
                                                selected = 0.05),
@@ -28,7 +28,14 @@ server <- function(input, output){
          ylab="Family wise type I error probability", 
          main="Familywise type I error as a function of the number of tests conducted",
          col=ifelse(x==input$n.tests, "blue", "black"),
-         pch=19, cex=ifelse(x==input$n.tests, 2, 1))
+         pch=ifelse(x==input$n.tests, 19, 1),
+         cex=ifelse(x==input$n.tests, 2, 1),
+         yaxt="n"
+    )
+    segments(x0=0, x1=input$n.tests, 
+             y0=1-(1-alpha)^input$n.tests, 
+             y1=1-(1-alpha)^input$n.tests, col="blue", lty="dashed")
+    axis(side=2, at=c(0, 0.5, 1, round(1-(1-alpha)^input$n.tests, 2)))
   })
 }
 
